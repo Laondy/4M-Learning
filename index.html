@@ -77,6 +77,37 @@
 
     startGame();
 </script>
+<div id="honor-roll" style="margin-top: 40px; background: #fffbeb; padding: 15px; border-radius: 15px; border: 2px dashed #f59e0b;">
+    <h2 style="color: #d97706; font-size: 20px;">🏆 لوحة شرف أبطال 4M</h2>
+    <input type="text" id="hero-name" placeholder="اكتب اسم البطل هنا" style="width: 70%; margin-bottom: 10px;">
+    <button onclick="addToHonorRoll()" style="background: #f59e0b; width: auto; padding: 8px 15px; font-size: 16px;">تسجيل البطل</button>
+    
+    <ul id="names-list" style="list-style: none; padding: 0; margin-top: 15px; text-align: right;">
+        </ul>
+</div>
 
+<script>
+    // دالة لإضافة الاسم (مبدئياً بتتحفظ في المتصفح LocalStorage)
+    function displayNames() {
+        const list = document.getElementById('names-list');
+        const names = JSON.parse(localStorage.getItem('4m_heroes') || '[]');
+        list.innerHTML = names.map(name => `<li style="background: white; margin: 5px 0; padding: 8px; border-radius: 8px; box-shadow: 1px 1px 5px #eee;">⭐ البطل: ${name}</li>`).join('');
+    }
+
+    function addToHonorRoll() {
+        const nameInput = document.getElementById('hero-name');
+        if(nameInput.value.trim() !== "") {
+            let names = JSON.parse(localStorage.getItem('4m_heroes') || '[]');
+            names.push(nameInput.value);
+            localStorage.setItem('4m_heroes', JSON.stringify(names));
+            nameInput.value = "";
+            displayNames();
+            alert("تم تسجيل البطل في لوحة الشرف! 🎖️");
+        }
+    }
+
+    // تشغيل العرض عند تحميل الصفحة
+    displayNames();
+</script>
 </body>
 </html>
